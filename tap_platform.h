@@ -17,39 +17,38 @@
 #ifndef TAP_PLATFORM_H
 #define TAP_PLATFORM_H
 
+
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif
+#include <math.h>
+
 #ifdef _MSC_VER
+
 #include <Windows.h>
-#endif
-
-#ifdef _MSC_VER
 #define __CONSTRUCTOR
-#else
-#define __CONSTRUCTOR __attribute__((constructor))
-#endif
-
-#ifdef _MSC_VER
 #define __DESTRUCTOR
-#else
-#define __DESTRUCTOR __attribute__((destructor))
-#endif
-
-#ifdef _MSC_VER
-#define __INIT_FINI(initfn, finifn)                                                    \
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)   \
-{                                                                                      \
-    switch (ul_reason_for_call)                                                        \
-    {                                                                                  \
-    case DLL_PROCESS_ATTACH:                                                           \
-        initfn();                                                                      \
-        break;                                                                         \
-    case DLL_PROCESS_DETACH:                                                           \
-        finifn();                                                                      \
-        break;                                                                         \
-    }                                                                                  \
-    return TRUE;                                                                       \
+#define __INIT_FINI(initfn, finifn)                                          \
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ulReason, LPVOID lpReserved)   \
+{                                                                            \
+    switch (ulReason)                                                        \
+    {                                                                        \
+    case DLL_PROCESS_ATTACH:                                                 \
+        initfn();                                                            \
+        break;                                                               \
+    case DLL_PROCESS_DETACH:                                                 \
+        finifn();                                                            \
+        break;                                                               \
+    }                                                                        \
+    return TRUE;                                                             \
 }
-#else
+
+#else /* ! _MSC_VER */
+
+#define __CONSTRUCTOR __attribute__((constructor))
+#define __DESTRUCTOR __attribute__((destructor))
 #define __INIT_FINI(init, fini)
-#endif
+
+#endif /* _MSC_VER */
 
 #endif

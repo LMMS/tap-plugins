@@ -20,7 +20,7 @@
 #endif
 
 #include <stdint.h>
-#include <math.h>
+
 
 /* push a sample into a ringbuffer and return the sample falling out */
 static inline

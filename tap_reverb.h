@@ -19,7 +19,7 @@
 #define _ISOC99_SOURCE
 #endif
 
-#include <math.h>
+#include "tap_platform.h"
 #include <stdint.h>
 
 
